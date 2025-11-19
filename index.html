@@ -36,22 +36,27 @@
       margin-top: -10px;
     }
 
+    /* Upload Button - Transparent Burgundy */
     .upload-label {
       display: inline-block;
-      background: #007bff;
+      background: rgba(128, 0, 32, 0.85); /* Transparent burgundy */
       color: white;
       padding: 12px 25px;
       border-radius: 8px;
       cursor: pointer;
       margin-bottom: 30px;
       transition: background 0.3s ease;
+      font-weight: 600;
+      user-select: none;
     }
 
     .upload-label:hover {
-      background: #0056b3;
+      background: rgba(128, 0, 32, 1);
     }
 
-    #fileInput { display: none; }
+    #fileInput { 
+      display: none; 
+    }
 
     /* Fixed Size Stylish Grid */
     .gallery {
@@ -179,4 +184,3 @@
   </script>
 </body>
 </html>
-
