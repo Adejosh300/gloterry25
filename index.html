@@ -21,7 +21,6 @@
     @media (max-width: 600px) {
       body {
         padding: 20px 10px;
-        /* Just to ensure it always covers and centers */
         background-position: center center;
         background-size: cover;
       }
@@ -38,13 +37,26 @@
       font-family: 'Lucida Handwriting', cursive;
     }
 
+    /* Subtitle (small letters, lucida handwriting) */
     h1 span {
       font-size: 28px;
-      font-family: 'Poppins', sans-serif;
-      font-weight: 300;
-      letter-spacing: 2px;
+      font-family: 'Lucida Handwriting', cursive;
+      font-weight: 400;
+      letter-spacing: 1.5px;
       display: block;
       margin-top: -10px;
+      text-transform: lowercase; /* small letters */
+    }
+
+    /* Responsive subtitle font size */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 40px;
+      }
+      h1 span {
+        font-size: 18px;
+        margin-top: -6px;
+      }
     }
 
     /* Upload Button - Transparent Burgundy */
@@ -85,6 +97,8 @@
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       transition: transform 0.25s ease, box-shadow 0.25s ease;
+      outline: 2.5px solid white; /* white outline */
+      outline-offset: -4px; /* pulls the outline inside so it hugs the rounded corners */
     }
 
     .gallery img:hover {
@@ -103,7 +117,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.8); /* Changed from 0.95 to 0.8 */
+      background: rgba(0, 0, 0, 0.8); /* 80% opacity */
       justify-content: center;
       align-items: center;
       z-index: 1000;
@@ -139,9 +153,9 @@
   </style>
 </head>
 <body>
-  <h1>Gloterry'25<br><span>Wedding Picture Galleries</span></h1>
+  <h1>Gloterry'25<br><span>wedding picture galleries</span></h1>
 
-  <label for="fileInput" class="upload-label">Choose Images</label>
+  <label for="fileInput" class="upload-label">Upload Images</label>
   <input type="file" id="fileInput" accept="image/*" multiple />
 
   <div class="gallery" id="gallery"></div>
