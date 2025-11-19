@@ -67,7 +67,7 @@
       padding: 12px 25px;
       border-radius: 8px;
       cursor: pointer;
-      margin-bottom: 30px;
+      margin-bottom: 5px;
       transition: background 0.3s ease;
       font-weight: 600;
       user-select: none;
@@ -81,6 +81,14 @@
       display: none; 
     }
 
+    #errorMsg {
+      color: #ff6666;
+      font-weight: bold;
+      margin-bottom: 20px;
+      height: 1.2em;
+      user-select: none;
+    }
+
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -88,12 +96,7 @@
       justify-items: center;
     }
 
-    /* Mobile: 4 columns */
-    @media (max-width: 600px) {
-      .gallery {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
+    /* Removed 4-column override on mobile */
 
     .gallery img {
       width: 180px;
@@ -162,6 +165,8 @@
 
   <label for="fileInput" class="upload-label">Upload Images</label>
   <input type="file" id="fileInput" accept="image/*" multiple />
+  
+  <div id="errorMsg"></div>
 
   <div class="gallery" id="gallery"></div>
 
@@ -176,19 +181,30 @@
     const popup = document.getElementById('popup');
     const popupImg = document.getElementById('popupImg');
     const closeBtn = document.querySelector('.close');
+    const errorMsg = document.getElementById('errorMsg');
+
+    const uploadedImages = new Set();
 
     fileInput.addEventListener('change', function () {
       const files = this.files;
-      gallery.innerHTML = "";
       if (files.length) {
         Array.from(files).forEach(file => {
           const reader = new FileReader();
           reader.onload = function (e) {
+            const src = e.target.result;
+
+            if (uploadedImages.has(src)) {
+              showError("Already uploaded");
+              return;
+            }
+
+            uploadedImages.add(src);
+
             const img = document.createElement('img');
-            img.src = e.target.result;
+            img.src = src;
             img.alt = file.name;
             img.onclick = () => {
-              popupImg.src = e.target.result;
+              popupImg.src = src;
               popup.classList.add('active');
             };
             gallery.appendChild(img);
@@ -197,6 +213,13 @@
         });
       }
     });
+
+    function showError(message) {
+      errorMsg.textContent = message;
+      setTimeout(() => {
+        errorMsg.textContent = "";
+      }, 3000);
+    }
 
     function closePopup() {
       popup.classList.remove('active');
