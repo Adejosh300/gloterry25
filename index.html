@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gloterry Image Gallery</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('your-bg-image.jpg') center/cover no-repeat;
+      margin: 0;
+      padding: 40px 20px;
+      text-align: center;
+      color: white;
+    }
+
+    /* Heading */
+    h1 {
+      font-size: 65px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 35px;
+      color: white;
+      font-family: 'Lucida Handwriting', cursive;
+    }
+
+    .upload-label {
+      display: inline-block;
+      background: #007bff;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 30px;
+      transition: background 0.3s ease;
+    }
+
+    .upload-label:hover {
+      background: #0056b3;
+    }
+
+    #fileInput { display: none; }
+
+    /* Fixed Size Stylish Grid */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 18px;
+      justify-items: center;
+    }
+
+    .gallery img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 15px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.06);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+    }
+
+    /* Popup */ */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.95);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .popup img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .close {
+      position: fixed;
+      top: 20px;
+      right: 30px;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Gloterry<br><span style="font-size:28px; font-family:'Poppins', sans-serif; font-weight:300; letter-spacing:2px;">Wedding Picture Memories</span></h1>
+
+  <label for="fileInput" class="upload-label">Choose Images</label>
+  <input type="file" id="fileInput" accept="image/*" multiple />
+
+  <div class="gallery" id="gallery"></div>
+
+  <div id="popup" class="popup">
+    <span class="close">&times;</span>
+    <img id="popupImg" src="" alt="Full Image" />
+  </div>
+
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const gallery = document.getElementById('gallery');
+    const popup = document.getElementById('popup');
+    const popupImg = document.getElementById('popupImg');
+    const closeBtn = document.querySelector('.close');
+
+    fileInput.addEventListener('change', function () {
+      const files = this.files;
+      gallery.innerHTML = "";
+      if (files.length) {
+        Array.from(files).forEach(file => {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.onclick = () => {
+              popup.style.display = 'flex';
+              popupImg.src = e.target.result;
+            };
+            gallery.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+    });
+
+    popup.addEventListener('click', (e) => {
+      if (e.target === popup || e.target === closeBtn) {
+        popup.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
